@@ -1,0 +1,94 @@
+<div class="d-flex" id="wrapper">
+  <!-- Sidebar -->
+  <div class="bg-white sidebar shadow-sm" id="sidebar-wrapper">
+    <div class="sidebar-heading py-4 px-3 fw-bold fs-5 text-dark">
+      🏠 Plugs View
+    </div>
+    <div class="list-group list-group-flush">
+      <a routerLink="/dashboard" class="list-group-item sidebar-link">
+        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+      </a>
+      <a routerLink="/properties" class="list-group-item sidebar-link">
+        <i class="bi bi-house-door me-2"></i> Properties
+      </a>
+      <a routerLink="/tenants" class="list-group-item sidebar-link">
+        <i class="bi bi-people me-2"></i> Tenants
+      </a>
+      <a routerLink="/leases" class="list-group-item sidebar-link">
+        <i class="bi bi-file-earmark-text me-2"></i> Leases
+      </a>
+      <a routerLink="/payments" class="list-group-item sidebar-link">
+        <i class="bi bi-credit-card me-2"></i> Payments
+      </a>
+      <a routerLink="/settings" class="list-group-item sidebar-link">
+        <i class="bi bi-gear me-2"></i> Settings
+      </a>
+    </div>
+  </div>
+
+  <!-- Page Content -->
+  <div id="page-content-wrapper" class="w-100 desktop-padding">
+    <!-- Topbar -->
+    <!-- Topbar -->
+    <nav
+      class="topbar navbar navbar-light bg-white border-bottom px-4 py-2 d-flex align-items-center"
+    >
+      <!-- Sidebar toggle -->
+      <button (click)="toggleSidebar()" class="btn btn-outline-secondary me-3">
+        <i class="bi bi-list fs-5"></i>
+      </button>
+
+      <!-- App title / logo -->
+      <div class="fw-bold fs-5 text-dark me-auto">Plugs View</div>
+
+      <!-- Right section -->
+      <div class="d-flex align-items-center gap-3">
+        <span class="text-muted small">coder&#64;example.com</span>
+        <button class="btn btn-outline-secondary btn-sm">Logout</button>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid main-content py-4 px-4" id="main-content">
+      <h2 class="mt-3">Welcome, Coder</h2>
+      <p class="mb-5">Dashboard overview of your real estate account on Plugs View.</p>
+
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="card shadow-sm border-0">
+            <div class="card-body">
+              <h5 class="card-title">Total Properties</h5>
+              <p class="fs-4 fw-bold">25</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card shadow-sm border-0">
+            <div class="card-body">
+              <h5 class="card-title">Active Leases</h5>
+              <p class="fs-4 fw-bold">18</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card shadow-sm border-0">
+            <div class="card-body">
+              <h5 class="card-title">Monthly Revenue</h5>
+              <p class="fs-4 fw-bold">₦1,200,000</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="mt-5">
+        <h5>Quick Actions</h5>
+        <div class="d-flex gap-3 flex-wrap">
+          <button class="btn btn-primary">Add Property</button>
+          <button class="btn btn-outline-primary">View Tenants</button>
+          <button class="btn btn-outline-secondary">Generate Report</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

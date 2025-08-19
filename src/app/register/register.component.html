@@ -1,0 +1,88 @@
+<!-- REGISTER PAGE MAIN CONTAINER -->
+<div class="container-fluid main-register-container mt-5">
+
+    <!-- REGISTER CARD CONTAINER -->
+    <div class="container card register-card">
+        <div class="row">
+            <div class="col-md-7">
+                <!-- REGISTER CARD IMAGE SECTION -->
+                <section class="register-card-image-section">
+                    <!-- REGISTER CARD IMAGE-->
+                    <img src="background_image_2.jpeg"
+                        alt="A blue and white interior design of a luxurious duplex apartment" class="img-fluid">
+                </section>
+            </div>
+            <div class="col-md-5">
+                <div style="position: relative;">
+                    <!-- REGISTER CARD FORM SECTION -->
+                    <section class="register-card-form-section">
+                        <h6 style="color: var(--mat-sys-primary);">Propkip</h6>
+                        <h2>Create a Propkip Account</h2>
+                        <p>Get started with Propkip today!</p>
+                        <!-- REGISTER CARD FORM -->
+                        <form [formGroup]="RegisterFormGroup" class="mt-4">
+                            <!-- USERNAME INPUT -->
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>User Name</mat-label>
+                                <input type="text" matInput formControlName="username">
+                            </mat-form-field>
+                            <!-- EMAIL INPUT -->
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Email</mat-label>
+                                <input type="email" matInput [formControl]="emailFormControl"
+                                    placeholder="Ex. pat@example.com">
+                                @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
+                                <mat-error>Please enter a valid email address</mat-error>
+                                }
+                                @if (emailFormControl.hasError('required')) {
+                                <mat-error>Email is <strong>required</strong></mat-error>
+                                }
+                            </mat-form-field>
+                            <!-- PASSWORD INPUT-->
+                            <mat-form-field class="example-full-width mt-3" appearance="outline">
+                                <mat-label>Enter your password</mat-label>
+                                <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password" />
+                                <button mat-icon-button matSuffix (click)="clickEvent($event)"
+                                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide()">
+                                    <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                </button>
+                            </mat-form-field>
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <mat-form-field class="example-full-width mt-3" appearance="outline">
+                                        <mat-label>Password</mat-label>
+                                        <input matInput [type]="hide() ? 'password' : 'text'"
+                                            formControlName="password" />
+                                        <button mat-icon-button matSuffix (click)="clickEvent($event)"
+                                            [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide()">
+                                            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                        </button>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <mat-form-field class="example-full-width mt-3" appearance="outline">
+                                        <mat-label>Confirm Password</mat-label>
+                                        <input matInput [type]="hide() ? 'password' : 'text'"
+                                            formControlName="password_confirmation" />
+                                        <button mat-icon-button matSuffix (click)="clickEvent($event)"
+                                            [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide()">
+                                            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                        </button>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <!-- REGISTER BUTTON -->
+                            <button type="submit" class="example-full-width" mat-flat-button (click)="register()">register</button>
+                        </form>
+
+                    </section>
+                    <section class="register-card-sign-up">
+                        <p>Already have an account? <a routerLink="/">Login</a></p>
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
