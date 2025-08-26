@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/propkip",
+            "outputPath": "dist/Yonne-Attendance-System",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -37,7 +37,8 @@
             "outputMode": "server",
             "ssr": {
               "entry": "src/server.ts"
-            }
+            },
+            "baseHref": "/yonne-smart-attendance-system/"
           },
           "configurations": {
             "production": {
@@ -100,6 +101,9 @@
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ]
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }

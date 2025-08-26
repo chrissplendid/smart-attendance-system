@@ -1,88 +1,123 @@
-/* LOGIN MAIN CONTAINER STYLE */
-.main-login-container {
-    text-align: left;
+.login-container {
+  height: 100vh;
 }
 
-/* LOGIN CARD STYLE */
-.main-login-container .login-card {
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+/* Left Section Styling */
+.left-section {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  text-align: center;
+}
+.left-section h1 {
+  font-weight: 800;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+.left-section h2 {
+  font-weight: 600;
+  font-size: 1.6rem;
+  margin-bottom: 2rem;
+  color: #fbbf24;
+}
+.left-section img {
+  max-width: 47%;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.main-login-container .login-card img {
-    opacity: 0.9;
+/* Right Section Styling */
+.right-section {
+  background: linear-gradient(180deg, #ffffff, #f9fafb);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem;
+  width: 100%;
+  max-width: 420px;
+  border-left: 5px solid #fbbf24;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.05);
 }
 
-/* LOGIN CARD FORM SECTION STYLE */
-.main-login-container .login-card-form-section {
-    position: absolute;
-    display: block;
-    top: 100px;
-    left: 100px;
-    right: 0px;
-    bottom: 0px;
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e3a8a;
 }
 
-.example-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
+.brand-logo .logo-icon {
+  background-color: #fbbf24;
+  color: #1e3a8a;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: bold;
 }
 
-.example-full-width {
-    width: 90%;
+.brand-logo .logo-text {
+  font-weight: 700;
 }
 
-.example-container mat-form-field+mat-form-field {
-    margin-left: 8px;
+
+.form-label {
+  font-weight: 500;
+  color: #1e3a8a;
 }
 
-.example-right-align {
-    text-align: right;
+.form-control {
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  transition: 0.3s;
+}
+.form-control:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
 }
 
-input.example-right-align::-webkit-outer-spin-button,
-input.example-right-align::-webkit-inner-spin-button {
-    display: none;
+.btn-primary {
+  background-color: #1e3a8a;
+  border-color: #1e3a8a;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+.btn-primary:hover {
+  background-color: #152d6b;
+  border-color: #152d6b;
 }
 
-input.example-right-align {
-    -moz-appearance: textfield;
+.text-gold {
+  color: #fbbf24 !important;
 }
 
-.main-login-container .login-card .login-card-sign-up {
-    position: absolute;
-    display: block;
-    top: 680px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    text-align: center;
-}
-
-@media only screen and (max-width: 600px) {
-    .main-login-container {
-        padding: 20px;
-    }
-    .main-login-container .login-card-image-section {
-        display: none;
-    }
-
-    .main-login-container .login-card-form-section {
-        position: absolute;
-        display: block;
-        top: 100px;
-        left: 10px;
-        right: 0px;
-        bottom: 0px;
-    }
-
-    .main-login-container .login-card .login-card-sign-up {
-        position: absolute;
-        display: block;
-        top: 500px;
-        left: 0px;
-        right: 0px;
-        bottom: 0px;
-        text-align: center;
-    }
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .login-container {
+    flex-direction: column;
+  }
+  .left-section {
+    display: none; /* Hide left section on mobile */
+  }
+  .right-section {
+    max-width: 100%;
+    border-left: none;
+    border-top: 5px solid #fbbf24;
+    box-shadow: none;
+    padding: 2rem;
+  }
 }

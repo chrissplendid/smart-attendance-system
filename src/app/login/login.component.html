@@ -1,187 +1,111 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Attendance | Login</title>
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f9fafb, #f3f4f6);
-    }
-
-    .login-container {
-      height: 100vh;
-    }
-
-    /* Left Section Styling */
-    .left-section {
-      background: linear-gradient(135deg, #2563EB, #3B82F6);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 3rem;
-      text-align: center;
-    }
-    .left-section h1 {
-      font-weight: 800;
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      text-transform: uppercase;
-    }
-    .left-section h2 {
-      font-weight: 600;
-      font-size: 1.6rem;
-      margin-bottom: 2rem;
-      color: #FBBF24;
-    }
-    .left-section img {
-      max-width: 47%;
-      height: auto;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-
-    /* Right Section Styling */
-    .right-section {
-      background: linear-gradient(180deg, #ffffff, #f9fafb);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 3rem;
-      width: 100%;
-      max-width: 420px;
-      border-left: 5px solid #FBBF24;
-      box-shadow: -4px 0 12px rgba(0,0,0,0.05);
-    }
-
-    .brand-logo {
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: #1E3A8A;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 2rem;
-    }
-    .brand-logo span {
-      background-color: #FBBF24;
-      color: #1E3A8A;
-      border-radius: 50%;
-      width: 38px;
-      height: 38px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-
-    .form-label {
-      font-weight: 500;
-      color: #1E3A8A;
-    }
-
-    .form-control {
-      padding: 0.75rem;
-      border-radius: 8px;
-      border: 1px solid #ced4da;
-      transition: 0.3s;
-    }
-    .form-control:focus {
-      border-color: #3B82F6;
-      box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
-    }
-
-    .btn-primary {
-      background-color: #1E3A8A;
-      border-color: #1E3A8A;
-      padding: 0.75rem;
-      border-radius: 8px;
-      font-weight: 600;
-      transition: background-color 0.3s ease;
-    }
-    .btn-primary:hover {
-      background-color: #152d6b;
-      border-color: #152d6b;
-    }
-
-    .text-gold {
-      color: #FBBF24 !important;
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 992px) {
-      .login-container {
-        flex-direction: column;
-      }
-      .left-section {
-        display: none; /* Hide left section on mobile */
-      }
-      .right-section {
-        max-width: 100%;
-        border-left: none;
-        border-top: 5px solid #FBBF24;
-        box-shadow: none;
-        padding: 2rem;
-      }
-    }
-  </style>
-</head>
-<body>
-
 <div class="container-fluid login-container d-flex p-0">
-  <!-- Left Section (hidden on mobile) -->
-  <div class="col-lg-7 left-section">
-    <h1>Yonne Institute of<br>Science & Technology</h1>
-    <h2>Smart Attendance System<br>For Staff & Students</h2>
-    <img src="Time_Identity_and_Connection.png" alt="Attendance Illustration - Time, Identity, and Connection">
+  <!-- Left Section (hidden on small screens) -->
+  <div
+    class="d-none d-lg-flex col-lg-7 left-section flex-column justify-content-center text-white p-5"
+  >
+    <h1 class="fw-bold mb-3 mt-3">
+      Yonne Institute of<br />Science & Technology
+    </h1>
+    <h2 class="mb-4">Smart Attendance System<br />For Staff & Students</h2>
+    <img
+      src="Time_Identity_and_Connection.png"
+      alt="Attendance illustration showing time, identity, and connection"
+      class="img-fluid"
+    />
   </div>
 
   <!-- Right Section -->
-  <div class="col-lg-5 d-flex align-items-center justify-content-center">
-    <div class="right-section">
-      <div class="brand-logo">
-        <span>✔</span> Smart Attendance
+  <div
+    class="col-lg-5 d-flex right-section-main align-items-center justify-content-center p-4"
+  >
+    <div class="right-section w-100" style="max-width: 470px">
+      <!-- Branding -->
+      <div class="brand-logo mb-4">
+        <span class="logo-icon">✔</span>
+        <span class="logo-text">Smart Attendance</span>
       </div>
-      <h4 class="mb-3 fw-bold">Login</h4>
-      <p class="text-muted mb-4">
-        Sign in to track attendance, manage records,<br>and access reports.
+
+      <!-- Login Form -->
+      <h4 class="fw-bold mb-3 text-left">Login</h4>
+      <p class="text-muted mb-4 text-left">
+        Sign in to track attendance, manage records, and access reports.
       </p>
-      <form>
+
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <!-- Staff/Student ID -->
         <div class="mb-3">
-          <label for="username" class="form-label">Staff/Student ID</label>
-          <input type="text" class="form-control" id="username" placeholder="Enter your ID">
+          <label for="email" class="form-label">Staff/Student ID</label>
+          <input
+            type="text"
+            id="email"
+            class="form-control"
+            formControlName="email"
+            placeholder="Enter your ID"
+          />
+          <small
+            *ngIf="
+              loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+            "
+            class="text-danger"
+            >Valid ID/email is required</small
+          >
         </div>
+
+        <!-- Password -->
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" placeholder="Enter your password">
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="Enter your password"
+          />
+          <small
+            *ngIf="
+              loginForm.get('password')?.invalid &&
+              loginForm.get('password')?.touched
+            "
+            class="text-danger"
+            >Password is required</small
+          >
         </div>
+
+        <!-- Options -->
         <div class="d-flex justify-content-between align-items-center mb-4">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="remember">
+            <input class="form-check-input" type="checkbox" id="remember" />
             <label class="form-check-label" for="remember">Remember me</label>
           </div>
-          <a href="#" class="text-gold fw-semibold">Forgot Password?</a>
+          <a routerLink="/forgot-password" class="text-primary fw-semibold"
+            >Forgot Password?</a
+          >
         </div>
-        <button type="submit" class="btn btn-primary w-100">
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          class="btn btn-primary w-100"
+          [disabled]="loginForm.invalid"
+        >
           SIGN IN
         </button>
       </form>
+
+      <!-- Register/Contact -->
       <div class="text-center mt-4">
-        <p>Don’t have an account? <a href="#" class="text-gold fw-bold">Contact Admin</a></p>
+        <p>
+          Don’t have an account?
+          <a routerLink="/contact-admin" class="text-primary fw-bold"
+            >Contact Admin</a
+          >
+        </p>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="alert alert-danger text-center mt-3">
+        {{ errorMessage }}
       </div>
     </div>
   </div>
 </div>
-
-<!-- Bootstrap 5 JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>

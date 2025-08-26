@@ -1,57 +1,65 @@
-import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
-import {MatSelectModule} from '@angular/material/select';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormControl, Validators, FormsModule, ReactiveFormsModule, FormBuilder} from '@angular/forms';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { CommunicatorService } from '../communicator.service';
-import { RouterModule } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [MatFormFieldModule, MatInputModule, MatSelectModule, FormsModule, ReactiveFormsModule, MatIconModule, MatButtonModule, MatGridListModule, MatCheckboxModule, RouterModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,   // best practice in Angular 15+ for isolated components
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  hide = signal(true);
-  clickEvent(event: MouseEvent) {
-    this.hide.set(!this.hide());
-    event.stopPropagation();
-  }
-  private _formBuilder = inject(FormBuilder);
-  response: any[] = [];
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
+  private cookieService = inject(CookieService);
+  private communicatorService = inject(CommunicatorService);
+  private authService = inject(AuthService);
 
-  // FRONT END VALIDATION FOR LOGIN INPUT
-  LoginFormGroup = this._formBuilder.group({
-    password: ['', Validators.required]
-  })
+  response: any;
+  errorMessage: string = '';
 
-  // ACCOUNT LOGIN METHOD
-  login() {
-    // A JSON DATA OF THE LOGIN INPUTS
-    let loginData = {
-      email: this.emailFormControl.value,
-      password: this.LoginFormGroup.value.password
+  // ✅ Reactive form with validation
+  loginForm: FormGroup = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
+  });
+
+  // ✅ Method called on submit
+  login(): void {
+    if (this.loginForm.invalid) {
+      this.errorMessage = 'Please fill all required fields correctly';
+      return;
     }
-    // SEND LOGIN INPUTS TO THE SERVER THROUGH A SERVICE METHOD
-  this.communicatorService.onSubmitLoginService(loginData).subscribe({
-    next: (res) => {
-      this.response = res;
-      
-      console.log(res);
-    },
-    error: () => {}
-  })
-  }
-  
-  // A CONSTRUCTOR METHOD THAT RUNS BEFORE THE PAGE LOADS
-  constructor(private cookieService: CookieService, private communicatorService: CommunicatorService) {}
 
+    const loginData = this.loginForm.value;
+
+    this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
+      next: (res) => {
+        this.response = res;
+
+        // Example: store JWT in cookies/localStorage
+        if (res?.access_token) {
+          this.cookieService.set('auth_token', res.access_token);
+          this.cookieService.set('role', res.role);
+
+          // Redirect user based on role
+          if (res.role === 'admin') {
+            this.router.navigate(['/admin-dashboard']);
+          } else if (res.role === 'staff') {
+            this.router.navigate(['/staff-dashboard']);
+          } else {
+            this.router.navigate(['/student-dashboard']);
+          }
+        }
+      },
+      error: (err) => {
+        this.errorMessage = err.error?.msg || 'Login failed. Try again.';
+      },
+    });
+  }
 }
