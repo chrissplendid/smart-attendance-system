@@ -145,6 +145,12 @@
   }
 }
 
+@media (min-width: 991.98px) {
+  .main-nav {
+    padding: 17px 150px !important;
+  }
+}
+
 /* Overlay */
 #overlay {
   position: fixed;

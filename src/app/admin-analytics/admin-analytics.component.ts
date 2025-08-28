@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-admin-analytics',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './admin-analytics.component.html',
   styleUrl: './admin-analytics.component.css'
 })

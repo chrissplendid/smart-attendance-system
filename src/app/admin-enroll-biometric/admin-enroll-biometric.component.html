@@ -1,0 +1,190 @@
+<div class="container-fluid">
+  <!-- Header -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 mb-3 mt-3">
+    <div>
+      <p class="page-title mb-1">🖐️ Biometric Enrollment</p>
+      <p class="sub-title mb-0">
+        Admin only — enroll fingerprint or face for users. Templates are stored encrypted; no raw images are kept.
+      </p>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-secondary action-btn">Help</button>
+      <button class="btn btn-success action-btn">Start Kiosk Enrollment</button>
+    </div>
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="row row-gap mb-3">
+    <div class="col-6 col-md-3 mt-3 mb-3">
+      <div class="enroll-card bg-gradient-primary">
+        <p class="stat-small mb-1">Enrolled Users</p>
+        <h4 class="mb-0">0</h4>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 mt-3 mb-3">
+      <div class="enroll-card bg-gradient-success">
+        <p class="stat-small mb-1">Fingerprints</p>
+        <h4 class="mb-0">0</h4>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 mt-3 mb-3">
+      <div class="enroll-card bg-gradient-warning">
+        <p class="stat-small mb-1">Face Templates</p>
+        <h4 class="mb-0">0</h4>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 mt-3 mb-3">
+      <div class="enroll-card">
+        <p class="stat-small mb-1 text-muted">Last Enrollment</p>
+        <h6 class="mb-0">Aug 27, 2025 — 11:47 AM</h6>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main enrollment area -->
+  <div class="enroll-card enroll-grid">
+    <!-- Left: Enrollment Controls -->
+    <div>
+      <!-- Instructions -->
+      <div class="mb-3">
+        <h6 class="fw-semibold mb-2">Enrollment Instructions</h6>
+        <ol class="small mb-0 text-muted">
+          <li>Select the user (searchable).</li>
+          <li>Choose fingerprint or face enrollment (or both).</li>
+          <li>Follow the on-screen prompts.</li>
+          <li>On success, the template will be securely uploaded & encrypted.</li>
+        </ol>
+      </div>
+
+      <!-- Enrollment Panel -->
+      <div class="mb-3 enrollment-panel">
+        <div class="mb-2">
+          <label for="userSelect" class="form-label small">Select User</label>
+          <input id="userSelect" list="users" class="form-control" placeholder="Search by name or email..." />
+          <datalist id="users">
+            <option value="John Doe — john@example.com"></option>
+            <option value="Jane — jane@example.com"></option>
+            <option value="Christian Umolu — christianumolu@gmail.com"></option>
+          </datalist>
+        </div>
+
+        <div class="d-flex gap-2 mb-3">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="enrollFingerprint" checked>
+            <label class="form-check-label small" for="enrollFingerprint">Fingerprint</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="enrollFace" checked>
+            <label class="form-check-label small" for="enrollFace">Face</label>
+          </div>
+        </div>
+
+        <!-- Fingerprint status -->
+        <div class="mb-3">
+          <div class="fp-status align-items-center">
+            <div class="fp-thumb">🖐</div>
+            <div class="flex-grow-1">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <small class="text-uppercase text-muted">Fingerprint Status</small>
+                  <div class="fw-semibold">Not started</div>
+                </div>
+                <div style="width:40%">
+                  <div class="progress">
+                    <div class="progress-bar" style="width:0%"></div>
+                  </div>
+                </div>
+              </div>
+              <small class="text-muted">Place finger on the kiosk scanner when prompted.</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Face status -->
+        <div class="mb-3">
+          <small class="text-uppercase text-muted">Face Status</small>
+          <div class="d-flex gap-2 align-items-center mt-2">
+            <div class="camera-preview">
+              <div class="text-center text-muted">
+                <div class="fw-semibold">Camera Idle</div>
+                <div class="small">Start face capture to preview</div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="flex-grow-1">
+              <div class="fw-semibold">Not started</div>
+              <small class="text-muted">Allow camera access when prompted.</small>
+              <div class="mt-2">
+                <div class="progress">
+                  <div class="progress-bar bg-success" style="width:0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="d-flex flex-column flex-sm-row gap-2 mt-3">
+          <button class="btn btn-primary w-100">Start Enrollment</button>
+          <button class="btn btn-outline-secondary w-100">Abort</button>
+          <button class="btn btn-outline-info w-100">Retry</button>
+        </div>
+      </div>
+
+      <!-- Logs -->
+      <div class="p-2 log-panel">
+        <h6 class="small fw-semibold">Recent Enrollment Logs</h6>
+        <ul class="list-unstyled small mb-0 text-muted">
+          <li>Aug 25, 2025 — Christian Umolu — Fingerprint (Success)</li>
+          <li>Aug 24, 2025 — Joseph — Face (Failed: poor lighting)</li>
+          <li>Aug 20, 2025 — Mrs. Ola — Fingerprint (Success)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right: Kiosk Preview & Advanced Options -->
+    <aside>
+      <div class="mb-3">
+        <h6 class="fw-semibold mb-2">Kiosk Preview</h6>
+        <div class="enroll-card p-3 text-center">
+          <div class="camera-preview mb-3">
+            <div class="text-muted">
+              <div class="fw-semibold">Kiosk Idle</div>
+              <div class="small">Waiting for enrollment action</div>
+            </div>
+          </div>
+          <div class="d-grid gap-2">
+            <button class="btn btn-outline-primary">Open Kiosk App</button>
+            <button class="btn btn-outline-secondary">Force Sync Templates</button>
+            <button class="btn btn-outline-danger">Clear Local Cache</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <h6 class="fw-semibold mb-2">Advanced Options</h6>
+        <div class="enroll-card p-2">
+          <div class="d-flex justify-content-between mb-2">
+            <small class="text-muted">Encryption</small>
+            <small class="fw-semibold">AES-256</small>
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <small class="text-muted">Template Type</small>
+            <small class="fw-semibold">Embeddings / Fingerprint</small>
+          </div>
+          <div class="d-flex justify-content-between">
+            <small class="text-muted">Upload Mode</small>
+            <select class="form-select form-select-sm w-auto">
+              <option value="realtime">Realtime (recommended)</option>
+              <option value="batch">Batch (offline)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="small text-muted">
+        <strong>Note:</strong> Face captures are converted to embeddings client-side; only hashed/encrypted templates are sent to the server.
+      </div>
+    </aside>
+  </div>
+</div>

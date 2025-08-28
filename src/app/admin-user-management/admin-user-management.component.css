@@ -1,0 +1,68 @@
+:host {
+  display: block;
+  background: #f6f8fb;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: #0f1724;
+}
+
+.page-title {
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.sub-title {
+  color: #6c757d;
+  font-size: 0.95rem;
+}
+
+.action-btn {
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(15, 15, 25, 0.06);
+}
+
+.enroll-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(15, 15, 25, 0.06);
+  padding: 1rem 1.25rem;
+}
+
+.user-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  @media (min-width: 992px) {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: start;
+  }
+}
+
+.form-label.small {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.form-control,
+.form-select {
+  border-radius: 10px;
+  box-shadow: none;
+  border: 1px solid #dee2e6;
+  font-size: 0.95rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15);
+}
+
+.table {
+  font-size: 0.95rem;
+}
+
+.badge {
+  font-size: 0.8rem;
+  border-radius: 8px;
+}
