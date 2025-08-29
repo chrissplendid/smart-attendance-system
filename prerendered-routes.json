@@ -1,0 +1,17 @@
+{
+  "routes": {
+    "/chrissplendid/smart-attendance-system": {},
+    "/chrissplendid/smart-attendance-system/admin-dashboard": {},
+    "/chrissplendid/smart-attendance-system/admin-dashboard/attendance-logs": {},
+    "/chrissplendid/smart-attendance-system/admin-dashboard/dashboard": {},
+    "/chrissplendid/smart-attendance-system/admin-dashboard/enroll-biometric": {},
+    "/chrissplendid/smart-attendance-system/admin-dashboard/settings": {},
+    "/chrissplendid/smart-attendance-system/admin-dashboard/user-management": {},
+    "/chrissplendid/smart-attendance-system/register": {},
+    "/chrissplendid/smart-attendance-system/reset-password": {},
+    "/chrissplendid/smart-attendance-system/staff-dashboard": {},
+    "/chrissplendid/smart-attendance-system/staff-dashboard/analytics": {},
+    "/chrissplendid/smart-attendance-system/staff-dashboard/attendance-logs": {},
+    "/chrissplendid/smart-attendance-system/staff-dashboard/profile": {}
+  }
+}
