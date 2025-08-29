@@ -10,6 +10,8 @@ import { AdminAttendanceLogsComponent } from './admin-attendance-logs/admin-atte
 import { AdminEnrollBiometricComponent } from './admin-enroll-biometric/admin-enroll-biometric.component';
 import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
 import { AdminUserManagementComponent } from './admin-user-management/admin-user-management.component';
+import { StaffAttendanceLogsComponent } from './staff-attendance-logs/staff-attendance-logs.component';
+import { StaffProfileComponent } from './staff-profile/staff-profile.component';
 
 export const routes: Routes = [
     {path:"", component: LoginComponent},
@@ -24,6 +26,9 @@ export const routes: Routes = [
         {path: "user-management", component: AdminUserManagementComponent}
     ]},
     {path:"staff-dashboard", component: StaffDashboardComponent, children: [
-        {path: "", component: StaffAnalyticsComponent}
+        {path: "", component: StaffAnalyticsComponent},
+        {path: "analytics", component: StaffAnalyticsComponent},
+        {path: "attendance-logs", component: StaffAttendanceLogsComponent},
+        {path: "profile", component: StaffProfileComponent}
     ]},
 ];

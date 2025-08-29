@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/Yonne-Attendance-System",
+            "outputPath": "dist/Smart-Attendance-System",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -38,7 +38,7 @@
             "ssr": {
               "entry": "src/server.ts"
             },
-            "baseHref": "https://yonnegroup.github.io/yonne-smart-attendance-system/"
+            "baseHref": "/smart-attendance-system/"
           },
           "configurations": {
             "production": {

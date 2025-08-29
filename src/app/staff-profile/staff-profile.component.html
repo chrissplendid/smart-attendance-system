@@ -1,0 +1,81 @@
+<div class="container-fluid profile-page">
+  <!-- Header -->
+  <header class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mb-4">
+    <h1 class="page-title mb-0">👤 My Profile & Settings</h1>
+    <button class="btn btn-primary save-btn">💾 Save Changes</button>
+  </header>
+
+  <div class="profile-grid">
+    <!-- Left Column: Profile Card -->
+    <section class="card-section profile-card text-center">
+      <div class="profile-avatar mb-3">
+        <div class="avatar-circle">
+          <i class="bi bi-person-fill"></i>
+        </div>
+      </div>
+      <h4 class="fw-semibold mb-1">Dev Coder</h4>
+      <p class="text-muted small mb-3">Staff — Cybersecurity Dept.</p>
+
+      <button class="btn btn-outline-primary w-100 mb-2">Change Photo</button>
+      <button class="btn btn-outline-danger w-100">Deactivate Account</button>
+    </section>
+
+    <!-- Right Column: Profile Settings -->
+    <main class="d-flex flex-column gap-3">
+      <!-- Personal Info -->
+      <div class="card-section">
+        <h6 class="fw-semibold mb-3">Personal Information</h6>
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <label class="form-label small">Full Name</label>
+            <input type="text" class="form-control" value="Dev Coder" />
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label small">Email</label>
+            <input type="email" class="form-control" value="devcoder@yonne-ist.edu" />
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label small">Phone</label>
+            <input type="tel" class="form-control" value="+234 810 000 0000" />
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label small">Department</label>
+            <input type="text" class="form-control" value="Cybersecurity" disabled />
+          </div>
+        </div>
+      </div>
+
+      <!-- Security -->
+      <div class="card-section">
+        <h6 class="fw-semibold mb-3">Security</h6>
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <label class="form-label small">New Password</label>
+            <input type="password" class="form-control" placeholder="Enter new password" />
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label small">Confirm Password</label>
+            <input type="password" class="form-control" placeholder="Confirm new password" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Preferences -->
+      <div class="card-section">
+        <h6 class="fw-semibold mb-3">Preferences</h6>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" id="notifEmail" checked />
+          <label class="form-check-label" for="notifEmail">Receive Email Notifications</label>
+        </div>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" id="notifSMS" />
+          <label class="form-check-label" for="notifSMS">Receive SMS Notifications</label>
+        </div>
+        <div class="form-check form-switch mt-3">
+          <input class="form-check-input" type="checkbox" id="darkMode" />
+          <label class="form-check-label" for="darkMode">Dark Mode</label>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

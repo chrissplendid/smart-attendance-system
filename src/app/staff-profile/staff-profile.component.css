@@ -1,0 +1,60 @@
+:host {
+  display: block;
+  background: #f6f8fb;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: #0f1724;
+}
+
+.page-title {
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.save-btn {
+  border-radius: 12px;
+  padding: 0.6rem 1.2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.card-section {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(15, 15, 25, 0.08);
+  padding: 1.2rem;
+}
+
+.profile-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+@media (min-width: 992px) {
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    align-items: start;
+  }
+}
+
+.profile-card {
+  padding: 2rem 1rem;
+}
+
+.avatar-circle {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #007bff, #00c6ff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  color: #fff;
+  font-size: 3rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.form-check-input:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+}

@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { CommunicatorService } from '../communicator.service';
 import { AuthService } from '../services/auth.service';
@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-login',
   standalone: true,   // best practice in Angular 15+ for isolated components
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
