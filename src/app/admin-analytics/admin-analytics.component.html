@@ -1,64 +1,53 @@
 <div class="container-fluid py-4 px-3 px-md-4">
   <!-- Welcome -->
   <p class="fw-medium fs-5 mb-4 text-center text-md-start">
-    Welcome to <strong>Admin Dashboard</strong>
+    Welcome, <strong>{{ user?.firstname }} {{ user?.lastname }}</strong>
   </p>
 
   <!-- Quick Actions -->
-  <div class="d-flex flex-wrap gap-2 mb-4 justify-content-center justify-content-md-start">
+  <div
+    class="d-flex flex-wrap gap-2 mb-4 justify-content-center justify-content-md-start"
+  >
     <button class="btn btn-success shadow-sm px-3 py-2">➕ Add New User</button>
-    <button class="btn btn-info shadow-sm px-3 py-2">🖐 Enroll Biometric</button>
-    <button class="btn btn-primary shadow-sm px-3 py-2">📊 View Attendance Logs</button>
+    <button class="btn btn-info shadow-sm px-3 py-2">
+      🖐 Enroll Biometric
+    </button>
+    <button class="btn btn-primary shadow-sm px-3 py-2">
+      📊 View Attendance Logs
+    </button>
   </div>
 
   <!-- Overview Stat Cards -->
   <div class="row g-4">
-    <div class="col-sm-6 col-lg-3">
-      <div class="card h-100 shadow-lg border-0 rounded-4 text-white bg-gradient-primary">
+    <div class="col-sm-6 col-lg-3" *ngFor="let stat of stats">
+      <div
+        class="card h-100 shadow-lg border-0 rounded-4 text-white"
+        [ngClass]="stat.bgClass"
+      >
         <div class="card-body d-flex flex-column justify-content-center">
-          <p class="small text-uppercase">Total Users</p>
-          <h3 class="fw-bold">5</h3>
-          <small>Admins, Staff, Students</small>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-      <div class="card h-100 shadow-lg border-0 rounded-4 text-white bg-gradient-success">
-        <div class="card-body d-flex flex-column justify-content-center">
-          <p class="small text-uppercase">Active Today</p>
-          <h3 class="fw-bold">0</h3>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-      <div class="card h-100 shadow-lg border-0 rounded-4 text-white bg-gradient-warning">
-        <div class="card-body d-flex flex-column justify-content-center">
-          <p class="small text-uppercase">Late Arrivals</p>
-          <h3 class="fw-bold">0</h3>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-      <div class="card h-100 shadow-lg border-0 rounded-4 text-white bg-gradient-danger">
-        <div class="card-body d-flex flex-column justify-content-center">
-          <p class="small text-uppercase">Absentees</p>
-          <h3 class="fw-bold">0</h3>
+          <p class="small text-uppercase">{{ stat.label }}</p>
+          <h3 class="fw-bold">{{ stat.value }}</h3>
+          <small *ngIf="stat.subText">{{ stat.subText }}</small>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- User Management Table -->
+  <!-- Staff Management Table -->
   <div class="row mt-5">
     <div class="col-12">
-      <h5 class="fw-semibold mb-3">User Management</h5>
+      <h5 class="fw-semibold mb-3">Staff Management</h5>
       <div class="d-flex flex-column flex-md-row gap-2 mb-3">
-        <input type="text" class="form-control w-100 w-md-25" placeholder="Search users..." />
-        <select class="form-select w-100 w-md-25">
+        <input
+          type="text"
+          class="form-control w-100 w-md-25"
+          placeholder="Search users..."
+          [(ngModel)]="userSearch"
+        />
+        <select class="form-select w-100 w-md-25" [(ngModel)]="filterRole">
           <option value="">Filter by Role</option>
-          <option value="Admin">Admin</option>
-          <option value="Staff">Staff</option>
-          <option value="Student">Student</option>
+          <option value="ADMIN">Admin</option>
+          <option value="STAFF">Staff</option>
         </select>
       </div>
       <div class="table-responsive shadow-sm rounded-3">
@@ -73,47 +62,125 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>John Doe</td>
-              <td>devcoder&#64;gmail.com</td>
-              <td>Staff</td>
-              <td><span class="badge bg-success px-3 py-2">Active</span></td>
-              <td class="text-center">
-                <div class="btn-group btn-group-sm">
-                  <button class="btn btn-primary">Edit</button>
-                  <button class="btn btn-danger">Delete</button>
-                  <button class="btn btn-info">Enroll</button>
-                </div>
+            <tr
+              *ngFor="
+                let u of users
+                  | paginate : { itemsPerPage: itemsPerPage, currentPage: P1 }
+              "
+            >
+              <td>{{ u.firstname }} {{ u.lastname }}</td>
+              <td>{{ u.email }}</td>
+              <td>{{ u.role }}</td>
+              <td>
+                <span class="badge bg-success px-3 py-2">Active</span>
               </td>
-            </tr>
-            <tr>
-              <td>James</td>
-              <td>jamesdebrug&#64;gmail.com</td>
-              <td>Student</td>
-              <td><span class="badge bg-secondary px-3 py-2">Inactive</span></td>
               <td class="text-center">
                 <div class="btn-group btn-group-sm">
                   <button class="btn btn-primary">Edit</button>
                   <button class="btn btn-danger">Delete</button>
-                  <button class="btn btn-info">Enroll</button>
+                  <button class="btn btn-info">Enroll Biometrics</button>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
+        <!-- Pagination Controls -->
+        <pagination-controls
+          (pageChange)="P1 = $event"
+          [autoHide]="true"
+          id="staff-pagination"
+        ></pagination-controls>
       </div>
     </div>
   </div>
 
-  <!-- Attendance Logs Table -->
+  <!-- Student Management Table -->
   <div class="row mt-5">
     <div class="col-12">
-      <h5 class="fw-semibold mb-3">Attendance Logs</h5>
-      <div class="d-flex flex-column flex-md-row justify-content-between gap-2 mb-3">
-        <input type="date" class="form-control w-100 w-md-25" />
+      <h5 class="fw-semibold mb-3">Student Management</h5>
+      <div class="d-flex flex-column flex-md-row gap-2 mb-3">
+        <input
+          type="text"
+          class="form-control w-100 w-md-25"
+          placeholder="Search students..."
+          [(ngModel)]="userSearch"
+        />
+        <select class="form-select w-100 w-md-25" [(ngModel)]="filterRole">
+          <option value="">Filter by Order</option>
+          <option value="asc">A-Z</option>
+          <option value="desc">Z-A</option>
+        </select>
+      </div>
+      <div class="table-responsive shadow-sm rounded-3">
+        <table class="table align-middle table-bordered table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let student of students
+                  | paginate : { itemsPerPage: itemsPerPage, currentPage: P2 }
+              "
+            >
+              <td>{{ student.firstname }} {{ student.lastname }}</td>
+              <td>{{ student.email }}</td>
+              <td>{{ student.role }}</td>
+              <td>
+                <span class="badge bg-success px-3 py-2">Active</span>
+              </td>
+              <td class="text-center">
+                <div class="btn-group btn-group-sm">
+                  <button class="btn btn-primary">Edit</button>
+                  <button class="btn btn-danger">Delete</button>
+                  <button class="btn btn-info">Enroll Biometrics</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Pagination Controls -->
+        <pagination-controls
+          (pageChange)="P2 = $event"
+          [autoHide]="true"
+          id="student-pagination"
+        ></pagination-controls>
+      </div>
+    </div>
+  </div>
+
+  <!-- Staff Attendance Logs Table -->
+  <div class="row mt-5">
+    <div class="col-12">
+      <h5 class="fw-semibold mb-3">Staff Attendance Logs</h5>
+      <div
+        class="d-flex flex-column flex-md-row justify-content-between gap-2 mb-3"
+      >
+        <input
+          type="date"
+          class="form-control w-100 w-md-25"
+          [(ngModel)]="attendanceDate"
+          (change)="loadStaffDailyAttendance()"
+        />
         <div class="d-flex gap-2">
-          <button class="btn btn-outline-secondary btn-sm">Export CSV</button>
-          <button class="btn btn-outline-secondary btn-sm">Export PDF</button>
+          <button
+            class="btn btn-outline-secondary btn-sm"
+            (click)="exportCSV()"
+          >
+            Export CSV
+          </button>
+          <button
+            class="btn btn-outline-secondary btn-sm"
+            (click)="exportPDF()"
+          >
+            Export PDF
+          </button>
         </div>
       </div>
       <div class="table-responsive shadow-sm rounded-3">
@@ -128,28 +195,114 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Dev Coder</td>
-              <td>2025-08-25</td>
-              <td>08:00 AM</td>
-              <td>05:00 PM</td>
-              <td><span class="badge bg-success px-3 py-2">Present</span></td>
-            </tr>
-            <tr>
-              <td>Joseph</td>
-              <td>2025-08-25</td>
-              <td>09:20 AM</td>
-              <td>-</td>
-              <td><span class="badge bg-warning px-3 py-2">Late</span></td>
+            <tr *ngFor="let rec of staffDailyAttendance | paginate : { itemsPerPage: itemsPerPage, currentPage: P3 }">
+              <td>{{ rec.user_name }}</td>
+              <td>{{ rec.time_in | date : "yyyy-MM-dd" }}</td>
+              <td>{{ rec.time_in | date : "shortTime" }}</td>
+              <td>
+                {{ rec.time_out ? (rec.time_out | date : "shortTime") : "-" }}
+              </td>
+              <td>
+                <span
+                  class="badge"
+                  [ngClass]="{
+                    'bg-success':
+                      rec.status === 'ON_TIME' || rec.status === 'SIGNED_OUT',
+                    'bg-warning':
+                      rec.status === 'LATE' || rec.status === 'EARLY_SIGNOUT',
+                    'bg-danger': rec.status === 'ABSENT'
+                  }"
+                  >{{ rec.status }}</span
+                >
+              </td>
             </tr>
           </tbody>
         </table>
+        <!-- Pagination Controls -->
+        <pagination-controls
+          (pageChange)="P3 = $event"
+          [autoHide]="true"
+          id="staff-attendance-pagination"
+        ></pagination-controls>
+      </div>
+    </div>
+  </div>
+
+  <!-- Students Attendance Logs Table -->
+  <div class="row mt-5 mb-5">
+    <div class="col-12">
+      <h5 class="fw-semibold mb-3">Students Attendance Logs</h5>
+      <div
+        class="d-flex flex-column flex-md-row justify-content-between gap-2 mb-3"
+      >
+        <input
+          type="date"
+          class="form-control w-100 w-md-25"
+          [(ngModel)]="attendanceDate"
+          (change)="loadStudentDailyAttendance()"
+        />
+        <div class="d-flex gap-2">
+          <button
+            class="btn btn-outline-secondary btn-sm"
+            (click)="exportCSV()"
+          >
+            Export CSV
+          </button>
+          <button
+            class="btn btn-outline-secondary btn-sm"
+            (click)="exportPDF()"
+          >
+            Export PDF
+          </button>
+        </div>
+      </div>
+      <div class="table-responsive shadow-sm rounded-3">
+        <table class="table align-middle table-striped table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>User</th>
+              <th>Date</th>
+              <th>Time In</th>
+              <th>Time Out</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let rec of studentDailyAttendance | paginate : { itemsPerPage: itemsPerPage, currentPage: P4 }">
+              <td>{{ rec.user_name }}</td>
+              <td>{{ rec.time_in | date : "yyyy-MM-dd" }}</td>
+              <td>{{ rec.time_in | date : "shortTime" }}</td>
+              <td>
+                {{ rec.time_out ? (rec.time_out | date : "shortTime") : "-" }}
+              </td>
+              <td>
+                <span
+                  class="badge"
+                  [ngClass]="{
+                    'bg-success':
+                      rec.status === 'SIGNED_IN' || rec.status === 'SIGNED_OUT',
+                    'bg-warning':
+                      rec.status === 'LATE' || rec.status === 'EARLY_SIGNOUT',
+                    'bg-danger': rec.status === 'ABSENT'
+                  }"
+                  >{{ rec.status }}</span
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Pagination Controls -->
+        <pagination-controls
+          (pageChange)="P4 = $event"
+          [autoHide]="true"
+          id="student-attendance-pagination"
+        ></pagination-controls>
       </div>
     </div>
   </div>
 
   <!-- Analytics Section -->
-  <div class="row mt-5 g-4">
+  <!-- <div class="row mt-5 g-4">
     <div class="col-md-4">
       <h6 class="fw-semibold mb-3">Daily Attendance Trend</h6>
       <div class="card shadow-sm p-3 rounded-4">
@@ -168,5 +321,5 @@
         <canvas id="lateComersChart"></canvas>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>

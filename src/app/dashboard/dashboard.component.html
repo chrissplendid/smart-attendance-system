@@ -11,10 +11,19 @@
         <i class="bi bi-speedometer2 me-2"></i> Dashboard
       </a>
       <a routerLink="user-management" class="list-group-item sidebar-link">
-        <i class="bi bi-people me-2"></i> User Management
+        <i class="bi bi-people me-2"></i> Staff Management
+      </a>
+      <a routerLink="student-management" class="list-group-item sidebar-link">
+        <i class="bi bi-mortarboard me-2"></i> Student Management
       </a>
       <a routerLink="enroll-biometric" class="list-group-item sidebar-link">
         <i class="bi bi-fingerprint me-2"></i> Enroll Fingerprint
+      </a>
+      <a routerLink="manual-attendance" class="list-group-item sidebar-link">
+        <i class="bi bi-pencil-square me-2"></i> Staff Manual Attendance
+      </a>
+      <a routerLink="student-manual-attendance" class="list-group-item sidebar-link">
+        <i class="bi bi-pencil-square me-2"></i> Student Manual Attendance
       </a>
       <a routerLink="attendance-logs" class="list-group-item sidebar-link">
         <i class="bi bi-check2-square me-2"></i> Attendance Logs
@@ -25,7 +34,7 @@
       <a routerLink="settings" class="list-group-item sidebar-link">
         <i class="bi bi-gear me-2"></i> Settings
       </a>
-      <a routerLink="/" class="list-group-item sidebar-link">
+      <a (click)="logout()" class="list-group-item sidebar-link">
         <i class="bi bi-box-arrow-right me-2"></i> Sign Out
       </a>
     </div>

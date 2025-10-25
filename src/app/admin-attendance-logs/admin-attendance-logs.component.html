@@ -3,62 +3,68 @@
   <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 mb-3">
     <div>
       <p class="page-title mb-1">📊 Attendance Logs</p>
-      <p class="sub-title mb-0">
-        Full attendance records with filters, exports, and analytics overview.
-      </p>
+      <p class="sub-title mb-0">Full attendance records with filters, exports, and analytics overview.</p>
     </div>
     <div class="d-flex gap-2">
-      <button class="btn btn-outline-secondary action-btn">Export CSV</button>
-      <button class="btn btn-outline-secondary action-btn">Export PDF</button>
-      <button class="btn btn-outline-secondary action-btn">Print</button>
+      <button class="btn btn-outline-secondary action-btn" (click)="exportCSV()">Export CSV</button>
+      <button class="btn btn-outline-secondary action-btn" (click)="exportPDF()">Export PDF</button>
+      <button class="btn btn-outline-secondary action-btn" (click)="printTable()">Print</button>
     </div>
   </div>
 
   <div class="logs-grid">
-    <!-- Main content -->
+    <!-- Main Content -->
     <div>
       <!-- Filters Panel -->
       <div class="enroll-card mb-3">
         <h6 class="fw-semibold mb-3">Filters</h6>
         <div class="row g-3">
+          <!-- Date Range -->
           <div class="col-12 col-md-4">
             <label class="form-label small">Date Range</label>
-            <input type="date" class="form-control mb-2" />
-            <input type="date" class="form-control" />
+            <input type="date" class="form-control mb-2" [(ngModel)]="filterStartDate" />
+            <input type="date" class="form-control" [(ngModel)]="filterEndDate" />
           </div>
+
+          <!-- Role -->
           <div class="col-12 col-md-4">
             <label class="form-label small">Role</label>
-            <select class="form-select">
+            <select class="form-select" [(ngModel)]="filterRole">
               <option value="">All Roles</option>
-              <option value="Admin">Admin</option>
-              <option value="Staff">Staff</option>
-              <option value="Student">Student</option>
+              <option value="ADMIN">Admin</option>
+              <option value="STAFF">Staff</option>
+              <option value="STUDENT">Student</option>
             </select>
           </div>
+
+          <!-- Department -->
           <div class="col-12 col-md-4">
             <label class="form-label small">Department / Class</label>
-            <select class="form-select">
+            <select class="form-select" [(ngModel)]="filterDepartment">
               <option value="">All</option>
-              <option value="IT">IT Department</option>
-              <option value="HR">HR</option>
-              <option value="Cybersecurity">Cybersecurity</option>
-              <option value="Networking">Networking</option>
-              <option value="AI Engineering">AI Engineering</option>
-              <option value="Data Analysis">Data Analysis</option>
+              <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
             </select>
           </div>
         </div>
+        <button class="btn btn-primary mt-3" (click)="applyFilters()">Apply Filters</button>
       </div>
 
-      <!-- Logs Table -->
-      <div class="enroll-card">
+      <!-- Attendance Records Table -->
+      <div class="enroll-card mb-5">
         <h6 class="fw-semibold mb-3">Attendance Records</h6>
-        <div class="table-responsive">
+
+        <!-- Loading & Empty State -->
+        <div *ngIf="loading" class="text-center py-3">Loading...</div>
+        <div *ngIf="!loading && filteredRecords.length === 0" class="text-center text-muted py-3">
+          No attendance records found.
+        </div>
+
+        <!-- Table -->
+        <div class="table-responsive" *ngIf="!loading && filteredRecords.length > 0">
           <table class="table align-middle table-hover table-striped mb-0">
             <thead class="table-light">
               <tr>
                 <th>User</th>
-                <th>Role</th>
                 <th>Date</th>
                 <th>Check-in</th>
                 <th>Check-out</th>
@@ -66,32 +72,31 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Dev Coder</td>
-                <td>Staff</td>
-                <td>2025-08-25</td>
-                <td>08:00 AM</td>
-                <td>05:00 PM</td>
-                <td><span class="badge bg-success px-3 py-2">Present</span></td>
-              </tr>
-              <tr>
-                <td>Joseph</td>
-                <td>Student</td>
-                <td>2025-08-25</td>
-                <td>09:15 AM</td>
-                <td>-</td>
-                <td><span class="badge bg-warning px-3 py-2">Late</span></td>
-              </tr>
-              <tr>
-                <td>Mrs. Jane</td>
-                <td>Staff</td>
-                <td>2025-08-25</td>
-                <td>-</td>
-                <td>-</td>
-                <td><span class="badge bg-danger px-3 py-2">Absent</span></td>
+              <tr *ngFor="let rec of filteredRecords | paginate: { itemsPerPage: itemsPerPage, currentPage: P1 }">
+                <td>{{ rec.user_name }}</td>
+                <td>{{ rec.time_in ? (rec.time_in | date:'yyyy-MM-dd') : '-' }}</td>
+                <td>{{ rec.time_in ? (rec.time_in | date:'shortTime') : '-' }}</td>
+                <td>{{ rec.time_out ? (rec.time_out | date:'shortTime') : '-' }}</td>
+                <td>
+                  <span 
+                    class="badge"
+                    [ngClass]="{
+                      'bg-success': rec.status === 'ON_TIME' || rec.status === 'SIGNED_OUT',
+                      'bg-warning': rec.status === 'LATE' || rec.status === 'EARLY_SIGNOUT',
+                      'bg-danger': rec.status === 'ABSENT'
+                    }">
+                    {{ rec.status }}
+                  </span>
+                </td>
               </tr>
             </tbody>
           </table>
+          <div class="d-flex justify-content-center mt-3">
+            <pagination-controls
+              (pageChange)="P1 = $event"
+              [autoHide]="true"
+              [responsive]="true"
+            ></pagination-controls>
         </div>
       </div>
     </div>
@@ -100,11 +105,11 @@
     <aside>
       <div class="enroll-card mb-3 bg-gradient-danger text-white">
         <p class="stat-small mb-1">Absentees Today</p>
-        <h4 class="mb-0">0</h4>
+        <h4 class="mb-0">{{ absenteeCount }}</h4>
       </div>
       <div class="enroll-card mb-3 bg-gradient-success text-white">
         <p class="stat-small mb-1">Average Check-in Time</p>
-        <h4 class="mb-0">08:47 AM</h4>
+        <h4 class="mb-0">{{ averageCheckinTime }}</h4>
       </div>
       <div class="enroll-card">
         <h6 class="fw-semibold mb-2">Attendance Heatmap</h6>

@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-  private apiUrl = 'http://127.0.0.1:5000/api/auth'; // Flask backend
+  //private apiUrl = 'http://127.0.0.1:5000/api/auth'; // Flask backend local URL
+  private apiUrl = 'https://attendance.yonnegroup.co/smart-attendance-backend/api/auth'; // Flask backend production URL
 
   constructor(private http: HttpClient) {}
 

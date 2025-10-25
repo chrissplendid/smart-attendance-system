@@ -1,10 +1,13 @@
 <div class="container-fluid">
   <!-- Header -->
-  <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 mb-3 mt-3">
+  <div
+    class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 mb-3 mt-3"
+  >
     <div>
       <p class="page-title mb-1">🖐️ Biometric Enrollment</p>
       <p class="sub-title mb-0">
-        Admin only — enroll fingerprint or face for users. Templates are stored encrypted; no raw images are kept.
+        Admin only — enroll fingerprint or face for users. Templates are stored
+        encrypted; no raw images are kept.
       </p>
     </div>
     <div class="d-flex gap-2">
@@ -52,92 +55,160 @@
           <li>Select the user (searchable).</li>
           <li>Choose fingerprint or face enrollment (or both).</li>
           <li>Follow the on-screen prompts.</li>
-          <li>On success, the template will be securely uploaded & encrypted.</li>
+          <li>
+            On success, the template will be securely uploaded & encrypted.
+          </li>
         </ol>
       </div>
 
       <!-- Enrollment Panel -->
       <div class="mb-3 enrollment-panel">
-        <div class="mb-2">
-          <label for="userSelect" class="form-label small">Select User</label>
-          <input id="userSelect" list="users" class="form-control" placeholder="Search by name or email..." />
-          <datalist id="users">
-            <option value="John Doe — john@example.com"></option>
-            <option value="Jane — jane@example.com"></option>
-            <option value="Christian Umolu — christianumolu@gmail.com"></option>
-          </datalist>
-        </div>
-
-        <div class="d-flex gap-2 mb-3">
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="enrollFingerprint" checked>
-            <label class="form-check-label small" for="enrollFingerprint">Fingerprint</label>
+        <form
+          [formGroup]="enrollForm"
+          class="mb-3 space-y-4"
+          (ngSubmit)="startEnrollment()"
+        >
+          <div class="mb-2">
+            <label for="userSelect" class="form-label small">Select User</label>
+            <select formControlName="user" class="form-select w-full">
+              <option *ngFor="let u of users" [ngValue]="u">
+                {{ u.firstname }} {{ u.lastname }} — {{ u.email }}
+              </option>
+            </select>
           </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="enrollFace" checked>
-            <label class="form-check-label small" for="enrollFace">Face</label>
-          </div>
-        </div>
 
-        <!-- Fingerprint status -->
-        <div class="mb-3">
-          <div class="fp-status align-items-center">
-            <div class="fp-thumb">🖐</div>
-            <div class="flex-grow-1">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <small class="text-uppercase text-muted">Fingerprint Status</small>
-                  <div class="fw-semibold">Not started</div>
+          <div class="d-flex gap-2 mb-3">
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="fingerprint"
+                id="enrollFingerprint"
+                checked
+              />
+              <label class="form-check-label small" for="enrollFingerprint"
+                >Fingerprint</label
+              >
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="face"
+                id="enrollFace"
+                checked
+              />
+              <label class="form-check-label small" for="enrollFace"
+                >Face</label
+              >
+            </div>
+          </div>
+
+          <!-- Fingerprint status -->
+          <div class="mb-3">
+            <div class="fp-status align-items-center">
+              <div class="fp-thumb">🖐</div>
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <small class="text-uppercase text-muted"
+                      >Fingerprint Status</small
+                    >
+                    <div class="fw-semibold">{{ fingerprintStatus }}</div>
+                  </div>
+                  <div style="width: 40%">
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 0%"></div>
+                    </div>
+                  </div>
                 </div>
-                <div style="width:40%">
+                <small class="text-muted"
+                  >Place finger on the kiosk scanner when prompted.</small
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Face status -->
+          <!-- Face status -->
+          <div class="mb-3">
+            <small class="text-uppercase text-muted">Face Status</small>
+            <div class="d-flex gap-2 align-items-center mt-2">
+              <!-- Live Camera Preview -->
+              <div class="camera-preview">
+                <video
+                  #videoEl
+                  autoplay
+                  muted
+                  playsinline
+                  width="240"
+                  height="180"
+                  class="border rounded"
+                ></video>
+              </div>
+
+              <div class="divider"></div>
+
+              <!-- Face Enrollment Status -->
+              <div class="flex-grow-1">
+                <div class="fw-semibold">{{ faceStatus }}</div>
+                <small class="text-muted"
+                  >Allow camera access when prompted.</small
+                >
+                <div class="mt-2">
                   <div class="progress">
-                    <div class="progress-bar" style="width:0%"></div>
+                    <div
+                      class="progress-bar bg-success"
+                      [style.width.%]="faceProgress"
+                    ></div>
                   </div>
                 </div>
               </div>
-              <small class="text-muted">Place finger on the kiosk scanner when prompted.</small>
             </div>
           </div>
-        </div>
 
-        <!-- Face status -->
-        <div class="mb-3">
-          <small class="text-uppercase text-muted">Face Status</small>
-          <div class="d-flex gap-2 align-items-center mt-2">
-            <div class="camera-preview">
-              <div class="text-center text-muted">
-                <div class="fw-semibold">Camera Idle</div>
-                <div class="small">Start face capture to preview</div>
-              </div>
-            </div>
-            <div class="divider"></div>
-            <div class="flex-grow-1">
-              <div class="fw-semibold">Not started</div>
-              <small class="text-muted">Allow camera access when prompted.</small>
-              <div class="mt-2">
-                <div class="progress">
-                  <div class="progress-bar bg-success" style="width:0%"></div>
-                </div>
-              </div>
-            </div>
+          <!-- Controls -->
+          <div class="d-flex flex-column flex-sm-row gap-2 mt-3">
+            <button
+              type="button"
+              class="btn btn-primary w-100"
+              (click)="startEnrollment()"
+            >
+              Start Enrollment
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary w-100"
+              (click)="abortEnrollment()"
+            >
+              Abort
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-info w-100"
+              (click)="retryEnrollment()"
+            >
+              Retry
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-primary w-100"
+              (click)="startAttendanceSign()"
+            >
+              Test Attendance Sign-In
+            </button>
           </div>
-        </div>
-
-        <!-- Controls -->
-        <div class="d-flex flex-column flex-sm-row gap-2 mt-3">
-          <button class="btn btn-primary w-100">Start Enrollment</button>
-          <button class="btn btn-outline-secondary w-100">Abort</button>
-          <button class="btn btn-outline-info w-100">Retry</button>
-        </div>
+        </form>
       </div>
 
       <!-- Logs -->
       <div class="p-2 log-panel">
+        <div class="mt-4 text-red-600" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
         <h6 class="small fw-semibold">Recent Enrollment Logs</h6>
         <ul class="list-unstyled small mb-0 text-muted">
-          <li>Aug 25, 2025 — Dev Coder — Fingerprint (Success)</li>
-          <li>Aug 24, 2025 — Joseph — Face (Failed: poor lighting)</li>
-          <li>Aug 20, 2025 — Mrs. Jane — Fingerprint (Success)</li>
+          <li *ngFor="let log of logs">{{ log }}</li>
         </ul>
       </div>
     </div>
@@ -155,7 +226,9 @@
           </div>
           <div class="d-grid gap-2">
             <button class="btn btn-outline-primary">Open Kiosk App</button>
-            <button class="btn btn-outline-secondary">Force Sync Templates</button>
+            <button class="btn btn-outline-secondary">
+              Force Sync Templates
+            </button>
             <button class="btn btn-outline-danger">Clear Local Cache</button>
           </div>
         </div>
@@ -183,7 +256,8 @@
       </div>
 
       <div class="small text-muted">
-        <strong>Note:</strong> Face captures are converted to embeddings client-side; only hashed/encrypted templates are sent to the server.
+        <strong>Note:</strong> Face captures are converted to embeddings
+        client-side; only hashed/encrypted templates are sent to the server.
       </div>
     </aside>
   </div>

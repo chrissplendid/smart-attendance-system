@@ -1,9 +1,13 @@
 <div class="container-fluid">
   <!-- Header -->
-  <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 mb-3">
+  <div
+    class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 mb-3"
+  >
     <div>
       <p class="page-title mb-1">👥 User Management</p>
-      <p class="sub-title mb-0">Enroll new users and manage existing staff and students.</p>
+      <p class="sub-title mb-0">
+        Enroll new users and manage existing staff and students.
+      </p>
     </div>
     <div class="d-flex gap-2">
       <button class="btn btn-primary action-btn">➕ Add User</button>
@@ -14,28 +18,114 @@
     <!-- User Enrollment Form -->
     <div class="enroll-card">
       <h6 class="fw-semibold mb-3">📝 Enroll New User</h6>
-      <form class="row g-3">
+      <form class="row g-3" [formGroup]="userForm" (ngSubmit)="enrollUser()">
         <div class="col-12 col-md-6">
-          <label class="form-label small">Full Name</label>
-          <input type="text" class="form-control" placeholder="Enter full name">
+          <label class="form-label small">First Name</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="firstname"
+            placeholder="Enter first name"
+          />
+          <small
+            *ngIf="
+              userForm.get('firstname')?.invalid &&
+              userForm.get('firstname')?.touched
+            "
+            class="text-danger"
+            >First name is required</small
+          >
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="form-label small">Last Name</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="lastname"
+            placeholder="Enter last name"
+          />
+          <small
+            *ngIf="
+              userForm.get('lastname')?.invalid &&
+              userForm.get('lastname')?.touched
+            "
+            class="text-danger"
+            >Last name is required</small
+          >
         </div>
         <div class="col-12 col-md-6">
           <label class="form-label small">Email</label>
-          <input type="email" class="form-control" placeholder="Enter email">
+          <input
+            type="email"
+            class="form-control"
+            formControlName="email"
+            placeholder="Enter email"
+          />
+          <small
+            *ngIf="
+              userForm.get('email')?.invalid && userForm.get('email')?.touched
+            "
+            class="text-danger"
+            >Valid email is required</small
+          >
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="form-label small">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="Enter password"
+          />
+          <small
+            *ngIf="
+              userForm.get('password')?.invalid &&
+              userForm.get('password')?.touched
+            "
+            class="text-danger"
+            >Valid password is required</small
+          >
         </div>
         <div class="col-12 col-md-6">
           <label class="form-label small">Role</label>
-          <select class="form-select">
-            <option value="Staff">Staff</option>
-            <option value="Student">Student</option>
+          <select class="form-select" formControlName="role">
+            <option value="STAFF">Staff</option>
           </select>
+          <small
+            *ngIf="
+              userForm.get('role')?.invalid && userForm.get('role')?.touched
+            "
+            class="text-danger"
+            >Role is required</small
+          >
         </div>
         <div class="col-12 col-md-6">
-          <label class="form-label small">Department / Class</label>
-          <input type="text" class="form-control" placeholder="e.g., IT Dept, Class A">
+          <label class="form-label small">Department</label>
+          <select class="form-select" formControlName="department">
+            <option value="Web Development">Web Development</option>
+            <option value="Cybersecurity">Cybersecurity</option>
+            <option value="Data Analysis">Data Analysis</option>
+            <option value="Python Programming">Python Programming</option>
+            <option value="Mobile Development">Mobile Development</option>
+            <option value="Networking">Networking</option>
+            <option value="Artificial Intelligence">
+              Artificial Intelligence
+            </option>
+            <option value="UI/UX Design">UI/UX Design</option>
+          </select>
+          <small
+            *ngIf="
+              userForm.get('department')?.invalid &&
+              userForm.get('department')?.touched
+            "
+            class="text-danger"
+            >Department is required</small
+          >
         </div>
         <div class="col-12">
-          <button class="btn btn-success w-100">Enroll User</button>
+          <button type="submit" class="btn btn-success w-100">
+            Enroll User
+          </button>
         </div>
       </form>
     </div>
@@ -44,7 +134,7 @@
     <div class="enroll-card">
       <h6 class="fw-semibold mb-3">📋 Existing Users</h6>
       <div class="d-flex flex-column flex-md-row gap-2 mb-3">
-        <input type="text" class="form-control" placeholder="Search users...">
+        <input type="text" class="form-control" placeholder="Search users..." />
         <select class="form-select w-auto">
           <option value="">Filter by Role</option>
           <option value="Staff">Staff</option>
@@ -64,26 +154,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Dev Coder</td>
-              <td>devcoder&#64;it.com</td>
-              <td>Staff</td>
-              <td>IT Department</td>
+            <tr
+              *ngFor="
+                let user of users
+                  | paginate : { itemsPerPage: itemsPerPage, currentPage: P1 }
+              "
+            >
+              <td>{{ user.firstname }} {{ user.lastname }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.role }}</td>
+              <td>{{ user.department }}</td>
               <td><span class="badge bg-success px-3 py-2">Active</span></td>
-              <td class="text-center">
-                <div class="btn-group btn-group-sm">
-                  <button class="btn btn-primary">Edit</button>
-                  <button class="btn btn-danger">Delete</button>
-                  <button class="btn btn-info">Enroll Biometrics</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>James</td>
-              <td>James&#64;student.it.com</td>
-              <td>Student</td>
-              <td>Cybersecurity</td>
-              <td><span class="badge bg-secondary px-3 py-2">Inactive</span></td>
               <td class="text-center">
                 <div class="btn-group btn-group-sm">
                   <button class="btn btn-primary">Edit</button>
@@ -94,6 +175,13 @@
             </tr>
           </tbody>
         </table>
+        <div class="d-flex justify-content-center mt-3">
+          <pagination-controls
+            (pageChange)="P1 = $event"
+            [autoHide]="true"
+            [responsive]="true"
+          ></pagination-controls>
+        </div>
       </div>
     </div>
   </div>

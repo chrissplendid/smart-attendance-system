@@ -1,19 +1,42 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CommunicatorService {
+  // private readonly apiUrl = 'http://localhost:5000/api'; // Flask backend local URL
+  private readonly apiUrl = 'https://attendance.yonnegroup.co/smart-attendance-backend/api';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  onSubmitLoginService(formInputs:any):Observable<any> {
-    return this.http.post<any>('http://127.0.0.1:8000/api/auth/login', formInputs)
+  /** 🔑 Login and store JWT in HttpOnly cookie */
+  login(email: string, password: string): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/auth/login`,
+      { email, password },
+      { withCredentials: true } // ✅ allow cookie exchange
+    );
   }
 
-  onSubmitRegisterService(formInputs:any):Observable<any> {
-    return this.http.post<any>('http://127.0.0.1:8000/api/auth/register', formInputs)
+  /** 👤 Enroll biometric data */
+  enrollBiometric(payload: any): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/biometrics/enroll`,
+      payload,
+      { withCredentials: true } // ✅ send cookies with request
+    );
+  }
+
+  /** 🕒 Sign attendance */
+  async signInAttendance(payload: any): Promise<any> {
+    return firstValueFrom(
+      this.http.post(
+        `${this.apiUrl}/attendance/signin`,
+        payload,
+        { withCredentials: true } // ✅ cookie authentication
+      )
+    );
   }
 }

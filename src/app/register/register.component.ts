@@ -36,7 +36,7 @@ export class RegisterComponent {
   })
 
   // ACCOUNT LOGIN METHOD
-  register() {
+  /*register() {
     // A JSON DATA OF THE LOGIN INPUTS
     let registerData = {
       username: this.RegisterFormGroup.value.username,
@@ -52,7 +52,7 @@ export class RegisterComponent {
     },
     error: () => {}
   })
-  }
+  }*/
   
   // A CONSTRUCTOR METHOD THAT RUNS BEFORE THE PAGE LOADS
   constructor(private cookieService: CookieService, private communicatorService: CommunicatorService) {}

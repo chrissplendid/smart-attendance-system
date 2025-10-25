@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterModule } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,6 +9,9 @@ import { RouterOutlet, RouterModule } from '@angular/router';
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent {
+
+  constructor(public authService: AuthService) { }
+
   toggleSidebar() {
     const wrapper = document.getElementById('wrapper');
     if (wrapper) {
@@ -22,4 +26,9 @@ export class DashboardComponent {
       wrapper.classList.remove('show-sidebar');
     }
   }
+
+  logout() {
+    this.authService.signout();
+  }
+
 }

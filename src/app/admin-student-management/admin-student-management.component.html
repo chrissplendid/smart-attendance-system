@@ -1,0 +1,149 @@
+<div class="container-fluid">
+  <!-- Header -->
+  <div
+    class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 mb-3"
+  >
+    <div>
+      <p class="page-title mb-1">👥 Student Management</p>
+      <p class="sub-title mb-0">
+        Enroll new students and manage existing students.
+      </p>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-primary action-btn">➕ Add Student</button>
+    </div>
+  </div>
+
+  <div class="user-grid">
+    <!-- User Enrollment Form -->
+    <div class="enroll-card">
+      <h6 class="fw-semibold mb-3">📝 Enroll New Student</h6>
+      <form class="row g-3" [formGroup]="studentForm" (ngSubmit)="enrollStudent()">
+        <div class="col-12 col-md-6">
+          <label class="form-label small">First Name</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="firstname"
+            placeholder="Enter first name"
+          />
+          <small
+            *ngIf="
+              studentForm.get('firstname')?.invalid &&
+              studentForm.get('firstname')?.touched
+            "
+            class="text-danger"
+            >First name is required</small
+          >
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="form-label small">Last Name</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="lastname"
+            placeholder="Enter last name"
+          />
+          <small
+            *ngIf="
+              studentForm.get('lastname')?.invalid &&
+              studentForm.get('lastname')?.touched
+            "
+            class="text-danger"
+            >Last name is required</small
+          >
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="form-label small">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            formControlName="email"
+            placeholder="Enter email"
+          />
+          <small
+            *ngIf="
+              studentForm.get('email')?.invalid && studentForm.get('email')?.touched
+            "
+            class="text-danger"
+            >Valid email is required</small
+          >
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="form-label small">Role</label>
+          <select class="form-select" formControlName="role">
+            <option value="STUDENT">Student</option>
+          </select>
+          <small *ngIf="studentForm.get('role')?.invalid && studentForm.get('role')?.touched" class="text-danger">Role is required</small>
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="form-label small">Department</label>
+          <select class="form-select" formControlName="department">
+            <option value="Web Development">Web Development</option>
+            <option value="Cybersecurity">Cybersecurity</option>
+            <option value="Data Analysis">Data Analysis</option>
+            <option value="Python Programming">Python Programming</option>
+            <option value="Mobile Development">Mobile Development</option>
+            <option value="Networking">Networking</option>
+            <option value="Artificial Intelligence">Artificial Intelligence</option>
+            <option value="UI/UX Design">UI/UX Design</option>
+          </select>
+          <small *ngIf="studentForm.get('department')?.invalid && studentForm.get('department')?.touched" class="text-danger">Department is required</small>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-success w-100">Enroll User</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- User Table -->
+    <div class="enroll-card">
+      <h6 class="fw-semibold mb-3">📋 Existing Students</h6>
+      <div class="d-flex flex-column flex-md-row gap-2 mb-3">
+        <input type="text" class="form-control" placeholder="Search students..." />
+        <select class="form-select w-auto">
+          <option value="">Filter by Order</option>
+          <option value="asc">A-Z</option>
+          <option value="desc">Z-A</option>
+        </select>
+      </div>
+      <div class="table-responsive">
+        <table class="table align-middle table-hover table-striped mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Department/Class</th>
+              <th>Status</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of students | paginate: { itemsPerPage: itemsPerPage, currentPage: P1 }">
+              <td>{{ student.firstname }} {{ student.lastname }}</td>
+              <td>{{ student.email }}</td>
+              <td>{{ student.role }}</td>
+              <td>{{ student.department }}</td>
+              <td><span class="badge bg-success px-3 py-2">Active</span></td>
+              <td class="text-center">
+                <div class="btn-group btn-group-sm">
+                  <button class="btn btn-primary">Edit</button>
+                  <button class="btn btn-danger">Delete</button>
+                  <button class="btn btn-info">Enroll Biometrics</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-center mt-3">
+          <pagination-controls
+            (pageChange)="P1 = $event"
+            [autoHide]="true"
+            [responsive]="true"
+          ></pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

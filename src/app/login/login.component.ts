@@ -1,14 +1,19 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  Validators,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { CommunicatorService } from '../communicator.service';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../auth.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  standalone: true,   // best practice in Angular 15+ for isolated components
+  standalone: true, // best practice in Angular 15+ for isolated components
   imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
@@ -36,29 +41,33 @@ export class LoginComponent {
       return;
     }
 
-    const loginData = this.loginForm.value;
+    const { email, password } = this.loginForm.value;
 
-    this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
+    this.communicatorService.login(email, password).subscribe({
       next: (res) => {
         this.response = res;
 
-        // Example: store JWT in cookies/localStorage
-        if (res?.access_token) {
-          this.cookieService.set('auth_token', res.access_token);
-          this.cookieService.set('role', res.role);
+        // ✅ Only use refresh_token & user data from response
+        if (res?.user) {
+          this.authService.setTokens(
+            res.access_token_cookie,
+            res.refresh_token_cookie
+          );
+          this.cookieService.set('role', res.user.role);
+          this.authService.setUser(res.user);
 
-          // Redirect user based on role
-          if (res.role === 'admin') {
+          if (res.user.role === 'ADMIN') {
             this.router.navigate(['/admin-dashboard']);
-          } else if (res.role === 'staff') {
+          } else if (res.user.role === 'STAFF') {
             this.router.navigate(['/staff-dashboard']);
           } else {
-            this.router.navigate(['/student-dashboard']);
+            alert('Unknown role. Contact support.');
+            this.router.navigate(['/login']);
           }
         }
       },
       error: (err) => {
-        this.errorMessage = err.error?.msg || 'Login failed. Try again.';
+        this.errorMessage = err.error?.message || 'Login failed. Try again.';
       },
     });
   }
